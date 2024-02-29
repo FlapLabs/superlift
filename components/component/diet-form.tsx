@@ -55,10 +55,8 @@ export function DietForm({ updateDietPlan }) {
 
     try {
       const generatedDietPlan = await makeDiet({ userData: formData });
-      console.log(generatedDietPlan);
 
       updateDietPlan(generatedDietPlan);
-      console.log("Form Data:", formData);
     } catch (error) {
       console.error("Error generating diet plan:", error);
       if (error instanceof z.ZodError) {

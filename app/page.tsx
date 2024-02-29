@@ -11,8 +11,6 @@ export default function Home() {
     setGeneratedDietPlan(newDietPlan);
   };
 
-  console.log(generatedDietPlan);
-
   return (
     <div>
       <div>
