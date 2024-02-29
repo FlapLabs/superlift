@@ -11,7 +11,7 @@ const app = express();
 
 app.get("/", async (req, res) => {
   const resForDiet = await createDietPlan(
-    "I am 6'2 and I weight 82kg, I want lose fat and gain muscles. I am vegeterian and I do intense workouts "
+    "I am 5'2 and I weight 82kg, I want lose fat and gain muscles. I am vegeterian and I do intense workouts "
   );
 
   const dietPlan = resForDiet.lc_kwargs.content;
