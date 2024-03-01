@@ -1,3 +1,5 @@
+import { log } from "console";
+
 const createURL = (path) => {
   return window.location.origin + path;
 };

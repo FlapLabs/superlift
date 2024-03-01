@@ -25,6 +25,8 @@ import { ActivityLevel, Gender } from "@/utils/enums";
 import { makeDiet } from "@/utils/api";
 import { z } from "zod";
 import { NextResponse } from "next/server";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function DietForm({ updateDietPlan }) {
   const [formData, setFormData] = useState({
@@ -38,14 +40,16 @@ export function DietForm({ updateDietPlan }) {
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // New state
-
   const handleChange = async (e) => {
     const { id, value } = e.target;
     const numericValue =
       id === "age" || id === "weight" || id === "height"
         ? parseFloat(value)
         : value;
-    setFormData((prevData) => ({ ...prevData, [id]: numericValue }));
+    setFormData((prevData) => ({
+      ...prevData,
+      [id.toLowerCase()]: numericValue,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -56,16 +60,26 @@ export function DietForm({ updateDietPlan }) {
     try {
       const generatedDietPlan = await makeDiet({ userData: formData });
 
-      updateDietPlan(generatedDietPlan);
-    } catch (error) {
-      console.error("Error generating diet plan:", error);
-      if (error instanceof z.ZodError) {
-        // If it's a ZodError, extract the error messages
-        const errorMessages = error.errors.map((e) => e.message);
-        return NextResponse.json({ errors: errorMessages });
+      if (generatedDietPlan && generatedDietPlan.message) {
+        toast.success("Diet Plan Generated Successfully", {
+          position: "bottom-right",
+        });
+      } else {
+        toast.error(
+          `Failed to create diet. ${JSON.stringify(
+            generatedDietPlan.errors[0]
+          )}`,
+          {
+            position: "bottom-right",
+          }
+        );
       }
 
-      return NextResponse.json({ error });
+      updateDietPlan(generatedDietPlan.message);
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, {
+        position: "bottom-right",
+      });
     } finally {
       setIsButtonDisabled(false);
     }
@@ -105,11 +119,8 @@ export function DietForm({ updateDietPlan }) {
                   <SelectValue placeholder="Select Gender" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.values(Gender).map((gender) => (
-                    <SelectItem key={gender} value={gender}>
-                      {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value={Gender.MALE}>Male</SelectItem>
+                  <SelectItem value={Gender.FEMALE}>Female</SelectItem>
                 </SelectContent>
               </Select>
             </div>
