@@ -46,10 +46,7 @@ export function DietForm({ updateDietPlan }) {
       id === "age" || id === "weight" || id === "height"
         ? parseFloat(value)
         : value;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id.toLowerCase()]: numericValue,
-    }));
+    setFormData((prevData) => ({ ...prevData, [id]: numericValue }));
   };
 
   const handleSubmit = async (e) => {
