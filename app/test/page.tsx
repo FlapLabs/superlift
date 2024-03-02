@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React, { useState } from "react";
 import {
@@ -13,6 +13,7 @@ import { Form, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { dietFormSchema } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,7 @@ import { ActivityLevel, Gender } from "@/utils/enums";
 import { makeDiet } from "@/utils/api";
 import { CustomFormField } from "@/components/component/form-field";
 
-export function DietForm({ updateDietPlan }) {
+export default function DietForm({ updateDietPlan }) {
   const { toast } = useToast();
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -87,7 +88,7 @@ export function DietForm({ updateDietPlan }) {
                 label="Gender"
                 type="select"
                 options={Object.values(Gender)}
-                placeholder="Select Gender"
+                placeholder="Select your Gender"
               />
               <CustomFormField
                 control={form.control}

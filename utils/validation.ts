@@ -33,7 +33,7 @@ export const dietFormSchema = z.object({
     ActivityLevel.VERY_ACTIVE,
   ]),
 
-  dietaryPreferences: z.string().optional(),
+  dietaryPreferences: z.string(),
 
-  healthConditions: z.string().optional(),
+  healthConditions: z.string(),
 });
