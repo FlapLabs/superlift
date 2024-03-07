@@ -21,12 +21,12 @@ const parserForDietPlan = StructuredOutputParser.fromZodSchema(
     Suggestions: z
       .string()
       .describe(
-        "Suggestions for the user, anything that can help them in their diet journey."
+        "Suggestions for the user, based on the provided health problem or concerns"
       ),
     "Diet Preference": z
       .string()
       .describe(
-        "Diet preference of the user. (Either Vegetarian or Non-Vegetarian)"
+        "Diet Preference of the created meal, whether vegeterian or non-vegeterian."
       ),
   })
 );
@@ -36,7 +36,7 @@ const getPromptForDietPlan = async (content) => {
 
   const prompt = new PromptTemplate({
     template:
-      "Create a customized diet plan based on the given parameters provided by the user. Add calories as well for the meals. Also please parse their dietPreference and only show their respective food choice (either veg or non-veg) Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
+      "Create a customized diet plan with calorie estimates for each meal, ensuring a balanced macronutrient distribution and diverse food choices. Add calories as well for the meals. Also please parse their dietPreference and only show their respective food choice (either vegeterian or non-vegeterian) Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions },
   });
